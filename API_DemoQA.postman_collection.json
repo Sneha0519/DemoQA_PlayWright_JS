@@ -1,0 +1,1496 @@
+{
+	"info": {
+		"_postman_id": "9871e5a4-ddc4-4621-ba66-8915adc004ce",
+		"name": "PostmanApiCollectionReqResIn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration - Unsuccessful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7444397a-5750-4160-ab07-b13163870911",
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is not empty\", function () {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response error is not NULL\", function () {\r",
+							"    pm.expect(jsonResponse.error).to.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has property ERROR\", function() {\r",
+							"    pm.expect(jsonResponse).to.have.property('error')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have property TOKEN\", function() {\r",
+							"    pm.expect(jsonResponse).to.not.have.property('token')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has string Missing password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Registration - Successful\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"sydney@fife\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration - Successful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "38e5886a-e9ae-4fab-8059-a4ae468fc8ba",
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"userId\", jsonResponse.id);\r",
+							"\r",
+							"pm.environment.set('userId', jsonResponse.id);\r",
+							"\r",
+							"console.log(\"User ID is: \" + postman.getEnvironmentVariable(\"userId\"));\r",
+							"\r",
+							"console.log(\"User ID is: \" + pm.environment.get('userId',jsonResponse.id));\r",
+							"\r",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is not empty\", function () {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response id is not NULL\", function () {\r",
+							"    pm.expect(jsonResponse.id).to.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User ID is greater than 0\", function() {\r",
+							"    pm.expect(jsonResponse.id).is.above(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have property ERROR\", function() {\r",
+							"    pm.expect(jsonResponse).to.not.have.property('error')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has property TOKEN\", function() {\r",
+							"    pm.expect(jsonResponse).to.have.property('token')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have string Missing password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.include(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Single User\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a8cb980-e4ea-4efe-a81d-c58ad1e5d222",
+						"exec": [
+							"var jsonResponse = pm.response.json();",
+							"",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);",
+							"",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Response is not empty\", function () {",
+							"    pm.response.to.be.not.empty;",
+							"});",
+							"",
+							"pm.test(\"Response data is not NULL\", function () {",
+							"    pm.expect(jsonResponse.data).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"User ID is greater than 0\", function() {",
+							"    pm.expect(jsonResponse.data.id).is.above(0);",
+							"});",
+							"",
+							"pm.test(\"Response data has property ID\", function() {",
+							"    pm.expect(jsonResponse.data).to.have.property('id');",
+							"});",
+							"",
+							"postman.setNextRequest(\"Login - Unsuccessful\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "af74f488-788f-449e-a425-eed84358d760",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/{{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:21:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "__cfduid=d702f6851154e6376b628070010480c6c1558297310; expires=Mon, 18-May-20 20:21:50 GMT; path=/; domain=.reqres.in; HttpOnly; Secure"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:21:50 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98c78e193ece3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				},
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:35:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:35:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98dad74ac2ce3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Login - Unsuccessful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "612ff6aa-000f-4758-a91c-7de94fcccc9b",
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is not empty\", function () {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response error is not NULL\", function () {\r",
+							"    pm.expect(jsonResponse.error).to.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has property ERROR\", function() {\r",
+							"    pm.expect(jsonResponse).to.have.property('error')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have property TOKEN\", function() {\r",
+							"    pm.expect(jsonResponse).to.not.have.property('token')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has string Missing password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Login - Successful\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"peter@klaven\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Successful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea27fd57-905d-4300-97ee-583da116ce30",
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);\r",
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is not empty\", function () {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response token is not NULL\", function () {\r",
+							"    pm.expect(jsonResponse.token).to.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have property ERROR\", function() {\r",
+							"    pm.expect(jsonResponse).to.not.have.property('error')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has property TOKEN\", function() {\r",
+							"    pm.expect(jsonResponse).to.have.property('token')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response doesn't have string Missing password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.include(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"List Users\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cdc7e707-f116-44f1-b53b-f44e84261d98",
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);\r",
+							"\r",
+							"schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"object\",\r",
+							"    \"title\": \"The root schema\",\r",
+							"    \"description\": \"The root schema comprises the entire JSON document.\",\r",
+							"    \"default\": {},\r",
+							"    \"required\": [\r",
+							"        \"page\",\r",
+							"        \"per_page\",\r",
+							"        \"total\",\r",
+							"        \"total_pages\",\r",
+							"        \"data\",\r",
+							"        \"ad\"\r",
+							"    ],\r",
+							"    \"properties\": {\r",
+							"        \"page\": {\r",
+							"            \"$id\": \"#/properties/page\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The page schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0\r",
+							"        },\r",
+							"        \"per_page\": {\r",
+							"            \"$id\": \"#/properties/per_page\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The per_page schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0\r",
+							"        },\r",
+							"        \"total\": {\r",
+							"            \"$id\": \"#/properties/total\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The total schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0\r",
+							"        },\r",
+							"        \"total_pages\": {\r",
+							"            \"$id\": \"#/properties/total_pages\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The total_pages schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0\r",
+							"        },\r",
+							"        \"data\": {\r",
+							"            \"$id\": \"#/properties/data\",\r",
+							"            \"type\": \"array\",\r",
+							"            \"title\": \"The data schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": [],\r",
+							"            \"items\": {\r",
+							"                \"$id\": \"#/properties/data/items\",\r",
+							"                \"anyOf\": [\r",
+							"                    {\r",
+							"                        \"$id\": \"#/properties/data/items/anyOf/0\",\r",
+							"                        \"type\": \"object\",\r",
+							"                        \"title\": \"The first anyOf schema\",\r",
+							"                        \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                        \"default\": {},\r",
+							"                        \"required\": [\r",
+							"                            \"id\",\r",
+							"                            \"email\",\r",
+							"                            \"first_name\",\r",
+							"                            \"last_name\",\r",
+							"                            \"avatar\"\r",
+							"                        ],\r",
+							"                        \"properties\": {\r",
+							"                            \"id\": {\r",
+							"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/id\",\r",
+							"                                \"type\": \"integer\",\r",
+							"                                \"title\": \"The id schema\",\r",
+							"                                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                                \"default\": 0\r",
+							"                            },\r",
+							"                            \"email\": {\r",
+							"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/email\",\r",
+							"                                \"type\": \"string\",\r",
+							"                                \"title\": \"The email schema\",\r",
+							"                                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                                \"default\": \"\"\r",
+							"                            },\r",
+							"                            \"first_name\": {\r",
+							"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/first_name\",\r",
+							"                                \"type\": \"string\",\r",
+							"                                \"title\": \"The first_name schema\",\r",
+							"                                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                                \"default\": \"\"\r",
+							"                            },\r",
+							"                            \"last_name\": {\r",
+							"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/last_name\",\r",
+							"                                \"type\": \"string\",\r",
+							"                                \"title\": \"The last_name schema\",\r",
+							"                                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                                \"default\": \"\"\r",
+							"                            },\r",
+							"                            \"avatar\": {\r",
+							"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/avatar\",\r",
+							"                                \"type\": \"string\",\r",
+							"                                \"title\": \"The avatar schema\",\r",
+							"                                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                                \"default\": \"\"\r",
+							"                            }\r",
+							"                        }\r",
+							"                    }\r",
+							"                ]\r",
+							"            }\r",
+							"        },\r",
+							"        \"ad\": {\r",
+							"            \"$id\": \"#/properties/ad\",\r",
+							"            \"type\": \"object\",\r",
+							"            \"title\": \"The ad schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": {},\r",
+							"            \"required\": [\r",
+							"                \"company\",\r",
+							"                \"url\",\r",
+							"                \"text\"\r",
+							"            ],\r",
+							"            \"properties\": {\r",
+							"                \"company\": {\r",
+							"                    \"$id\": \"#/properties/ad/properties/company\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The company schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\"\r",
+							"                },\r",
+							"                \"url\": {\r",
+							"                    \"$id\": \"#/properties/ad/properties/url\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The url schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\"\r",
+							"                },\r",
+							"                \"text\": {\r",
+							"                    \"$id\": \"#/properties/ad/properties/text\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The text schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\"\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is not empty\", function () {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data is not NULL\", function () {\r",
+							"    pm.expect(jsonResponse.data).to.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"There are 6 results per page\", function () {\r",
+							"    pm.expect(jsonResponse.per_page).to.eql(6);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User schema is correct\", function() {\r",
+							"    var result = tv4.validateResult(jsonResponse, schema);\r",
+							"    pm.expect(result.valid).to.be.true;\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Update\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users?page=all",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "all"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET User List",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:35:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"21c-V3l8h04l5/8zLV+i3u8GJo8G3Y8\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:35:11 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98db1e08c5ce3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"page\": 2,\n    \"per_page\": 3,\n    \"total\": 12,\n    \"total_pages\": 4,\n    \"data\": [\n        {\n            \"id\": 4,\n            \"email\": \"eve.holt@reqres.in\",\n            \"first_name\": \"Eve\",\n            \"last_name\": \"Holt\",\n            \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg\"\n        },\n        {\n            \"id\": 5,\n            \"email\": \"charles.morris@reqres.in\",\n            \"first_name\": \"Charles\",\n            \"last_name\": \"Morris\",\n            \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg\"\n        },\n        {\n            \"id\": 6,\n            \"email\": \"tracey.ramos@reqres.in\",\n            \"first_name\": \"Tracey\",\n            \"last_name\": \"Ramos\",\n            \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "854a6d27-fd74-452e-8eb8-ff7fbdbad596",
+						"exec": [
+							"var jsonResponse = pm.response.json();",
+							"",
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);",
+							"",
+							"updateSchema = {",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema\",",
+							"    \"$id\": \"http://example.com/example.json\",",
+							"    \"type\": \"object\",",
+							"    \"title\": \"The root schema\",",
+							"    \"description\": \"The root schema comprises the entire JSON document.\",",
+							"    \"default\": {},",
+							"    \"required\": [",
+							"        \"name\",",
+							"        \"job\",",
+							"        \"updatedAt\"",
+							"    ],",
+							"    \"properties\": {",
+							"        \"name\": {",
+							"            \"$id\": \"#/properties/name\",",
+							"            \"type\": \"string\",",
+							"            \"title\": \"The name schema\",",
+							"            \"description\": \"An explanation about the purpose of this instance.\",",
+							"            \"default\": \"\"",
+							"        },",
+							"        \"job\": {",
+							"            \"$id\": \"#/properties/job\",",
+							"            \"type\": \"string\",",
+							"            \"title\": \"The job schema\",",
+							"            \"description\": \"An explanation about the purpose of this instance.\",",
+							"            \"default\": \"\"",
+							"        },",
+							"        \"updatedAt\": {",
+							"            \"$id\": \"#/properties/updatedAt\",",
+							"            \"type\": \"string\",",
+							"            \"title\": \"The updatedAt schema\",",
+							"            \"description\": \"An explanation about the purpose of this instance.\",",
+							"            \"default\": \"\"",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Response is not empty\", function () {",
+							"    pm.response.to.be.not.empty;",
+							"});",
+							"",
+							"pm.test(\"Response is not NULL\", function () {",
+							"    pm.expect(jsonResponse).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Update schema is correct\", function() {",
+							"    var result = tv4.validateResult(jsonResponse, updateSchema);",
+							"    pm.expect(result.valid).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response has property UPDATED AT\", function() {",
+							"    pm.expect(jsonResponse).to.have.property('updatedAt');",
+							"});",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"tests[\"Response time is acceptable\"] = _.inRange(responseTime, 0, 500);",
+							"tests[\"Body is not empty\"] = (responseBody!==null || responseBody.length!==0);",
+							"",
+							"postman.setNextRequest(\"Delete\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users/{{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:35:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:35:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98dad74ac2ce3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				},
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:21:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "__cfduid=d702f6851154e6376b628070010480c6c1558297310; expires=Mon, 18-May-20 20:21:50 GMT; path=/; domain=.reqres.in; HttpOnly; Secure"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:21:50 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98c78e193ece3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e65d76a-9b48-4cef-ba39-ae84c106ac1a",
+						"exec": [
+							"console.log(\"Cookie value is: \" + postman.getResponseCookie(\"__cfduid\").value);",
+							"",
+							"pm.test(\"Content-Type header is not present\", function () {",
+							"    pm.response.to.not.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is not JSON\", function () {",
+							"    pm.response.to.be.not.json;",
+							"});",
+							"",
+							"tests[\"Status code is 204\"] = responseCode.code === 204;",
+							"",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"",
+							"tests[\"Response time is acceptable\"] = _.inRange(responseTime, 0, 500);",
+							"",
+							"postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/{{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:35:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:35:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98dad74ac2ce3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				},
+				{
+					"name": "GET user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 20:21:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "__cfduid=d702f6851154e6376b628070010480c6c1558297310; expires=Mon, 18-May-20 20:21:50 GMT; path=/; domain=.reqres.in; HttpOnly; Secure"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"aa-yZW/45DWGt/1ri05OLnMt/FJ3RY\""
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "HIT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 20 May 2019 00:21:50 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=14400"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "4d98c78e193ece3b-LHR"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 2,\n        \"email\": \"janet.weaver@reqres.in\",\n        \"first_name\": \"Janet\",\n        \"last_name\": \"Weaver\",\n        \"avatar\": \"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"\n    }\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "923662a0-eb97-4e98-87fe-1e8bdeab3b18",
+				"type": "text/javascript",
+				"exec": [
+					"console.log(\"Hello World...\");",
+					"console.log(\"Value for url variable is : \" + pm.variables.get(\"url\"));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6da4715b-f8da-4389-b5c5-375c574cbf64",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "b733b5d2-b19c-4195-be74-347b62f9d633",
+			"key": "url",
+			"value": "https://reqres.in"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
